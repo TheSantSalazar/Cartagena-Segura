@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cartagena Segura — Sistema de Seguridad Ciudadana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --bg: #080d14;
+          --surface: #0e1621;
+          --surface2: #131d2a;
+          --border: #1e2e42;
+          --accent: #00d4ff;
+          --accent2: #ff6b35;
+          --accent3: #00ff88;
+          --text: #e8f4ff;
+          --muted: #4a6a8a;
+          --font-display: 'Syne', sans-serif;
+          --font-mono: 'Space Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+          background: var(--bg);
+          color: var(--text);
+          font-family: var(--font-display);
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+
+        /* GRID BACKGROUND */
+        body::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* SCAN LINE */
+        body::after {
+          content: '';
+          position: fixed;
+          top: -100%;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, var(--accent), transparent);
+          animation: scan 6s linear infinite;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        @keyframes scan {
+          0% { top: -2px; opacity: 0.6; }
+          100% { top: 100%; opacity: 0.2; }
+        }
+
+        /* HEADER */
+        header {
+          position: relative;
+          z-index: 10;
+          padding: 48px 60px 32px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: linear-gradient(180deg, rgba(0,212,255,0.04) 0%, transparent 100%);
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 20px; }
+
+        .logo-icon {
+          width: 52px; height: 52px;
+          border: 2px solid var(--accent);
+          border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 24px;
+          box-shadow: 0 0 20px rgba(0,212,255,0.3), inset 0 0 20px rgba(0,212,255,0.05);
+          animation: pulse-border 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+          0%, 100% { box-shadow: 0 0 20px rgba(0,212,255,0.3), inset 0 0 20px rgba(0,212,255,0.05); }
+          50% { box-shadow: 0 0 40px rgba(0,212,255,0.6), inset 0 0 30px rgba(0,212,255,0.1); }
+        }
+
+        .logo-text h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+        .logo-text p { font-size: 11px; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; letter-spacing: 2px; text-transform: uppercase; }
+
+        .header-right { display: flex; align-items: center; gap: 24px; }
+
+        .status-badge {
+          display: flex; align-items: center; gap: 8px;
+          padding: 8px 16px;
+          background: rgba(0,255,136,0.08);
+          border: 1px solid rgba(0,255,136,0.3);
+          border-radius: 100px;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--accent3);
+        }
+
+        .status-dot {
+          width: 8px; height: 8px; border-radius: 50%;
+          background: var(--accent3);
+          animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+
+        .clock {
+          font-family: var(--font-mono);
+          font-size: 13px;
+          color: var(--muted);
+        }
+
+        /* MAIN */
+        main {
+          position: relative;
+          z-index: 10;
+          padding: 48px 60px;
+          max-width: 1400px;
+          margin: 0 auto;
+        }
+
+        /* HERO SECTION */
+        .hero {
+          margin-bottom: 56px;
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: end;
+          gap: 40px;
+        }
+
+        .hero-title {
+          font-size: clamp(36px, 5vw, 64px);
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -2px;
+        }
+
+        .hero-title .highlight {
+          background: linear-gradient(90deg, var(--accent), var(--accent3));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .hero-sub {
+          margin-top: 12px;
+          font-family: var(--font-mono);
+          font-size: 12px;
+          color: var(--muted);
+          letter-spacing: 1px;
+        }
+
+        .version-chip {
+          padding: 6px 14px;
+          background: rgba(255,107,53,0.1);
+          border: 1px solid rgba(255,107,53,0.3);
+          border-radius: 6px;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--accent2);
+          white-space: nowrap;
+        }
+
+        /* METRICS ROW */
+        .metrics {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin-bottom: 40px;
+        }
+
+        .metric-card {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          padding: 24px;
+          position: relative;
+          overflow: hidden;
+          transition: border-color 0.3s, transform 0.2s;
+          cursor: default;
+        }
+
+        .metric-card:hover {
+          border-color: var(--accent);
+          transform: translateY(-2px);
+        }
+
+        .metric-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: var(--card-color, var(--accent));
+          opacity: 0.7;
+        }
+
+        .metric-card .label {
+          font-family: var(--font-mono);
+          font-size: 10px;
+          color: var(--muted);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-bottom: 12px;
+        }
+
+        .metric-card .value {
+          font-size: 36px;
+          font-weight: 800;
+          letter-spacing: -1px;
+          color: var(--card-color, var(--accent));
+          line-height: 1;
+          margin-bottom: 6px;
+        }
+
+        .metric-card .sub {
+          font-family: var(--font-mono);
+          font-size: 10px;
+          color: var(--muted);
+        }
+
+        /* CONTENT GRID */
+        .content-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+
+        .panel {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          overflow: hidden;
+        }
+
+        .panel-header {
+          padding: 20px 24px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .panel-title {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+
+        .panel-badge {
+          padding: 3px 10px;
+          border-radius: 100px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+        }
+
+        .badge-ok { background: rgba(0,255,136,0.1); color: var(--accent3); border: 1px solid rgba(0,255,136,0.2); }
+        .badge-warn { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
+        .badge-info { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+
+        .panel-body { padding: 20px 24px; }
+
+        /* SERVICE STATUS */
+        .service-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 14px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .service-row:last-child { border-bottom: none; }
+
+        .service-left { display: flex; align-items: center; gap: 14px; }
+
+        .service-icon {
+          width: 36px; height: 36px;
+          border-radius: 8px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 16px;
+        }
+
+        .service-name { font-size: 14px; font-weight: 600; }
+        .service-desc { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+        .service-ping {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--accent3);
+        }
+
+        /* ENDPOINTS TABLE */
+        .endpoint-row {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 0;
+          border-bottom: 1px solid var(--border);
+          font-family: var(--font-mono);
+          font-size: 12px;
+        }
+        .endpoint-row:last-child { border-bottom: none; }
+
+        .method {
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: 700;
+          min-width: 52px;
+          text-align: center;
+        }
+        .get { background: rgba(0,255,136,0.1); color: var(--accent3); }
+        .post { background: rgba(0,212,255,0.1); color: var(--accent); }
+        .patch { background: rgba(255,107,53,0.1); color: var(--accent2); }
+        .delete { background: rgba(255,60,60,0.1); color: #ff6060; }
+
+        .endpoint-path { color: var(--text); flex: 1; }
+        .endpoint-auth { font-size: 10px; color: var(--muted); }
+
+        /* QUICK LINKS */
+        .links-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        .link-card {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 16px;
+          background: var(--surface2);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          text-decoration: none;
+          color: var(--text);
+          transition: all 0.2s;
+        }
+
+        .link-card:hover {
+          border-color: var(--accent);
+          background: rgba(0,212,255,0.05);
+          transform: translateY(-1px);
+        }
+
+        .link-icon {
+          width: 40px; height: 40px;
+          border-radius: 10px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 18px;
+          flex-shrink: 0;
+        }
+
+        .link-label { font-size: 13px; font-weight: 600; }
+        .link-url { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+        /* TECH STACK */
+        .stack-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+
+        .stack-item {
+          padding: 12px;
+          background: var(--surface2);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          text-align: center;
+        }
+
+        .stack-item .tech { font-size: 12px; font-weight: 600; }
+        .stack-item .ver { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+        /* FULL WIDTH PANEL */
+        .full-panel {
+          grid-column: 1 / -1;
+        }
+
+        /* LOG */
+        .log-entry {
+          display: flex;
+          gap: 16px;
+          padding: 8px 0;
+          border-bottom: 1px solid rgba(30,46,66,0.5);
+          font-family: var(--font-mono);
+          font-size: 11px;
+        }
+        .log-entry:last-child { border-bottom: none; }
+        .log-time { color: var(--muted); white-space: nowrap; }
+        .log-level { min-width: 40px; }
+        .log-level.info { color: var(--accent); }
+        .log-level.ok { color: var(--accent3); }
+        .log-level.warn { color: var(--accent2); }
+        .log-msg { color: #8aacc8; }
+
+        /* FOOTER */
+        footer {
+          position: relative;
+          z-index: 10;
+          padding: 24px 60px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        footer p { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--muted);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--accent); }
+
+        /* ANIMATIONS */
+        .fade-in {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeUp 0.6s ease forwards;
+        }
+        @keyframes fadeUp {
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+
+        @media (max-width: 900px) {
+          header { padding: 24px; }
+          main { padding: 24px; }
+          .metrics { grid-template-columns: repeat(2, 1fr); }
+          .content-grid { grid-template-columns: 1fr; }
+          .hero { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo-icon">🛡️</div>
+        <div class="logo-text">
+            <h1>Cartagena Segura</h1>
+            <p>Sistema de Seguridad Ciudadana · API v1.0</p>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            SISTEMA OPERATIVO
+        </div>
+        <div class="clock" id="clock">--:--:--</div>
+    </div>
+</header>
+
+<main>
+
+    <!-- HERO -->
+    <div class="hero fade-in">
+        <div>
+            <h2 class="hero-title">
+                Panel de<br><span class="highlight">Control del Sistema</span>
+            </h2>
+            <p class="hero-sub">// Spring Boot 3.4.3 · Java 21 · PostgreSQL + MongoDB · JWT Auth</p>
+        </div>
+        <div class="version-chip">v1.0.0-SNAPSHOT · BUILD OK</div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics">
+        <div class="metric-card fade-in" style="--card-color: #00ff88;">
+            <div class="label">Uptime</div>
+            <div class="value" id="uptime">00:00</div>
+            <div class="sub">desde el ultimo reinicio</div>
+        </div>
+        <div class="metric-card fade-in" style="--card-color: #00d4ff;">
+            <div class="label">Endpoints</div>
+            <div class="value">20</div>
+            <div class="sub">rutas REST disponibles</div>
+        </div>
+        <div class="metric-card fade-in" style="--card-color: #ff6b35;">
+            <div class="label">Puerto</div>
+            <div class="value">8080</div>
+            <div class="sub">Tomcat embedded · HTTP</div>
+        </div>
+        <div class="metric-card fade-in" style="--card-color: #a78bfa;">
+            <div class="label">Java</div>
+            <div class="value">21</div>
+            <div class="sub">Oracle JDK · LTS release</div>
+        </div>
+    </div>
+
+    <!-- CONTENT GRID -->
+    <div class="content-grid">
+
+        <!-- SERVICES STATUS -->
+        <div class="panel fade-in">
+            <div class="panel-header">
+                <span class="panel-title">Estado de Servicios</span>
+                <span class="panel-badge badge-ok">2/2 OK</span>
+            </div>
+            <div class="panel-body">
+                <div class="service-row">
+                    <div class="service-left">
+                        <div class="service-icon" style="background: rgba(0,255,136,0.1); color: #00ff88;">🐘</div>
+                        <div>
+                            <div class="service-name">PostgreSQL</div>
+                            <div class="service-desc">Supabase · aws-1-us-east-1 · Pool: 5</div>
+                        </div>
+                    </div>
+                    <div class="service-ping">● CONECTADO</div>
+                </div>
+                <div class="service-row">
+                    <div class="service-left">
+                        <div class="service-icon" style="background: rgba(0,255,136,0.1); color: #00ff88;">🍃</div>
+                        <div>
+                            <div class="service-name">MongoDB Atlas</div>
+                            <div class="service-desc">Replica Set · SA_EAST_1 · 3 nodos</div>
+                        </div>
+                    </div>
+                    <div class="service-ping">● CONECTADO</div>
+                </div>
+                <div class="service-row">
+                    <div class="service-left">
+                        <div class="service-icon" style="background: rgba(0,212,255,0.1); color: #00d4ff;">🔐</div>
+                        <div>
+                            <div class="service-name">Spring Security + JWT</div>
+                            <div class="service-desc">BCrypt · Token 24h · Stateless</div>
+                        </div>
+                    </div>
+                    <div class="service-ping">● ACTIVO</div>
+                </div>
+                <div class="service-row">
+                    <div class="service-left">
+                        <div class="service-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa;">🤖</div>
+                        <div>
+                            <div class="service-name">Spring AI · GPT-4o-mini</div>
+                            <div class="service-desc">1.0.0-M6 · OpenAI integration</div>
+                        </div>
+                    </div>
+                    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent2);">◎ PENDIENTE</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="panel fade-in">
+            <div class="panel-header">
+                <span class="panel-title">Accesos Rapidos</span>
+                <span class="panel-badge badge-info">DEV</span>
+            </div>
+            <div class="panel-body">
+                <div class="links-grid">
+                    <a href="/swagger-ui.html" class="link-card">
+                        <div class="link-icon" style="background: rgba(0,212,255,0.1);">📋</div>
+                        <div>
+                            <div class="link-label">Swagger UI</div>
+                            <div class="link-url">/swagger-ui.html</div>
+                        </div>
+                    </a>
+                    <a href="/api-docs" class="link-card">
+                        <div class="link-icon" style="background: rgba(255,107,53,0.1);">📄</div>
+                        <div>
+                            <div class="link-label">OpenAPI JSON</div>
+                            <div class="link-url">/api-docs</div>
+                        </div>
+                    </a>
+                    <a href="/actuator/health" class="link-card">
+                        <div class="link-icon" style="background: rgba(0,255,136,0.1);">💚</div>
+                        <div>
+                            <div class="link-label">Health Check</div>
+                            <div class="link-url">/actuator/health</div>
+                        </div>
+                    </a>
+                    <a href="/actuator/metrics" class="link-card">
+                        <div class="link-icon" style="background: rgba(167,139,250,0.1);">📊</div>
+                        <div>
+                            <div class="link-label">Metricas</div>
+                            <div class="link-url">/actuator/metrics</div>
+                        </div>
+                    </a>
+                </div>
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+                    <div class="stack-grid">
+                        <div class="stack-item"><div class="tech">Spring Boot</div><div class="ver">3.4.3</div></div>
+                        <div class="stack-item"><div class="tech">Hibernate</div><div class="ver">6.6.8</div></div>
+                        <div class="stack-item"><div class="tech">Tomcat</div><div class="ver">10.1.36</div></div>
+                        <div class="stack-item"><div class="tech">jjwt</div><div class="ver">0.12.6</div></div>
+                        <div class="stack-item"><div class="tech">SpringDoc</div><div class="ver">2.8.4</div></div>
+                        <div class="stack-item"><div class="tech">MapStruct</div><div class="ver">1.6.3</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENDPOINTS -->
+        <div class="panel fade-in" style="grid-column: 1 / -1;">
+            <div class="panel-header">
+                <span class="panel-title">Endpoints Principales</span>
+                <span class="panel-badge badge-info">20 RUTAS</span>
+            </div>
+            <div class="panel-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px;">
+                <div>
+                    <div class="endpoint-row"><span class="method post">POST</span><span class="endpoint-path">/api/auth/register</span><span class="endpoint-auth">PUBLIC</span></div>
+                    <div class="endpoint-row"><span class="method post">POST</span><span class="endpoint-path">/api/auth/login</span><span class="endpoint-auth">PUBLIC</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/incidents</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method post">POST</span><span class="endpoint-path">/api/incidents</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method patch">PATCH</span><span class="endpoint-path">/api/incidents/{id}/status</span><span class="endpoint-auth">ADMIN</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/zones</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method post">POST</span><span class="endpoint-path">/api/zones</span><span class="endpoint-auth">ADMIN</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/notifications/unread</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/emergency-contacts</span><span class="endpoint-auth">PUBLIC</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/actuator/health</span><span class="endpoint-auth">PUBLIC</span></div>
+                </div>
+                <div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/incidents/{id}</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/incidents/{id}/history</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/incidents/{id}/comments</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method post">POST</span><span class="endpoint-path">/api/incidents/{id}/comments</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method patch">PATCH</span><span class="endpoint-path">/api/notifications/read-all</span><span class="endpoint-auth">USER</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/logs</span><span class="endpoint-auth">ADMIN</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api/reports</span><span class="endpoint-auth">ADMIN</span></div>
+                    <div class="endpoint-row"><span class="method post">POST</span><span class="endpoint-path">/api/emergency-contacts</span><span class="endpoint-auth">ADMIN</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/swagger-ui.html</span><span class="endpoint-auth">PUBLIC</span></div>
+                    <div class="endpoint-row"><span class="method get">GET</span><span class="endpoint-path">/api-docs</span><span class="endpoint-auth">PUBLIC</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STARTUP LOG -->
+        <div class="panel fade-in" style="grid-column: 1 / -1;">
+            <div class="panel-header">
+                <span class="panel-title">Log de Arranque</span>
+                <span class="panel-badge badge-ok">STARTUP OK</span>
+            </div>
+            <div class="panel-body">
+                <div class="log-entry"><span class="log-time">17:31:30</span><span class="log-level info">INFO</span><span class="log-msg">CartagenaSeguraApplication — Starting with PID 7296 · Java 21.0.10</span></div>
+                <div class="log-entry"><span class="log-time">17:31:32</span><span class="log-level info">INFO</span><span class="log-msg">RepositoryConfigurationDelegate — Found 3 JPA repositories · 7 MongoDB repositories</span></div>
+                <div class="log-entry"><span class="log-time">17:31:34</span><span class="log-level info">INFO</span><span class="log-msg">TomcatWebServer — Tomcat initialized on port 8080 (HTTP)</span></div>
+                <div class="log-entry"><span class="log-time">17:31:36</span><span class="log-level ok">OK</span><span class="log-msg">HikariDataSource — HikariPool-1 Start completed · PostgreSQL 17.6 connected</span></div>
+                <div class="log-entry"><span class="log-time">17:31:41</span><span class="log-level ok">OK</span><span class="log-msg">MongoDB Atlas — Replica set primary discovered: ac-m5vsesn-shard-00-01.fg5uppu.mongodb.net</span></div>
+                <div class="log-entry"><span class="log-time">17:31:47</span><span class="log-level ok">OK</span><span class="log-msg">CartagenaSeguraApplication — Started in 18.125 seconds · Exposing 3 actuator endpoints</span></div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 Cartagena Segura · ProAula · Spring Boot 3.4.3</p>
+    <div class="footer-links">
+        <a href="/swagger-ui.html">Docs</a>
+        <a href="/actuator/health">Health</a>
+        <a href="/api-docs">OpenAPI</a>
+    </div>
+</footer>
+
+<script>
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent =
+        now.toLocaleTimeString('es-CO', { hour12: false });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Uptime counter
+    const start = Date.now();
+    function updateUptime() {
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      const h = Math.floor(elapsed / 3600).toString().padStart(2, '0');
+      const m = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
+      const s = (elapsed % 60).toString().padStart(2, '0');
+      document.getElementById('uptime').textContent = `${h}:${m}:${s}`;
+    }
+    updateUptime();
+    setInterval(updateUptime, 1000);
+
+    // Fetch real health status
+    fetch('/actuator/health')
+      .then(r => r.json())
+      .then(data => {
+        if (data.status === 'UP') {
+          document.querySelector('.status-badge').innerHTML =
+            '<div class="status-dot"></div> SISTEMA OPERATIVO';
+        }
+      })
+      .catch(() => {});
+</script>
+</body>
+</html>

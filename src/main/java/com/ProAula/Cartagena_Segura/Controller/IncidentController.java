@@ -56,8 +56,7 @@ public class IncidentController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Listar todos los incidentes", description = "**Solo ADMIN**. Retorna todos los incidentes registrados en el sistema.")
+    @Operation(summary = "Listar todos los incidentes")
     public ResponseEntity<ApiResponse<List<Incident>>> getAll() {
         return ResponseEntity.ok(ApiResponse.ok("OK", incidentService.getAll()));
     }

@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/index.html",
-                                "/favicon.ico",
+                                "/Ctg_Seg.ico",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",

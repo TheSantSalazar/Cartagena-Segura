@@ -16,9 +16,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-    return userRepository.findByUsername(identifier)
-        .or(() -> userRepository.findByEmail(identifier))
-        .or(() -> userRepository.findByPhone(identifier))
-        .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + identifier));
+    public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+        return userRepository.findByUsername(identifier)
+            .or(() -> userRepository.findByEmail(identifier))
+            .or(() -> userRepository.findByPhone(identifier))
+            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + identifier));
+    }
+
 }

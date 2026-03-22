@@ -22,19 +22,22 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final LogService logService;
+    private final EmailService emailService;
 
     public AuthService(UserRepository userRepository,
                        RoleRepository roleRepository,
                        PasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil,
                        AuthenticationManager authenticationManager,
-                       LogService logService) {
+                       LogService logService,
+                       EmailService emailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.logService = logService;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -57,6 +60,7 @@ public class AuthService {
         user.setRoles(Set.of(userRole));
         userRepository.save(user);
         logService.log("REGISTER", request.username(), "Nuevo usuario registrado", "User", null);
+        emailService.sendWelcomeEmail(user.getEmail(), user.getUsername(), user.getFullName());
         String token = jwtUtil.generateToken(user);
         Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
         return new AuthResponse(token, user.getUsername(), user.getFullName(), user.getEmail(), user.getPhone(), roles);

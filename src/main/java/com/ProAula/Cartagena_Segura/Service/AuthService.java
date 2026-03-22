@@ -1,5 +1,4 @@
 package com.ProAula.Cartagena_Segura.Service;
-
 import com.ProAula.Cartagena_Segura.Dto.AuthDTO.*;
 import com.ProAula.Cartagena_Segura.Model.Role;
 import com.ProAula.Cartagena_Segura.Model.User;
@@ -11,14 +10,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -48,10 +45,8 @@ public class AuthService {
         if (userRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("El email ya está en uso");
         }
-
         Role userRole = roleRepository.findByName("USER")
                 .orElseGet(() -> roleRepository.save(new Role("USER", "Usuario estándar")));
-
         User user = new User(
                 request.username(),
                 passwordEncoder.encode(request.password()),
@@ -61,9 +56,7 @@ public class AuthService {
         );
         user.setRoles(Set.of(userRole));
         userRepository.save(user);
-
         logService.log("REGISTER", request.username(), "Nuevo usuario registrado", "User", null);
-
         String token = jwtUtil.generateToken(user);
         Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
         return new AuthResponse(token, user.getUsername(), user.getFullName(), roles);
@@ -73,16 +66,14 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
-
         User user = userRepository.findByUsername(request.username())
+                .or(() -> userRepository.findByEmail(request.username()))
+                .or(() -> userRepository.findByPhone(request.username()))
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
-
         logService.logFull("LOGIN", request.username(), "Inicio de sesión exitoso",
                 ipAddress, userAgent, "User", null);
-
         String token = jwtUtil.generateToken(user);
         Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
         return new AuthResponse(token, user.getUsername(), user.getFullName(), roles);

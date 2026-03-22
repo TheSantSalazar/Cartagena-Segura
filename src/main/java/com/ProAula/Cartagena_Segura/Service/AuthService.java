@@ -59,7 +59,7 @@ public class AuthService {
         logService.log("REGISTER", request.username(), "Nuevo usuario registrado", "User", null);
         String token = jwtUtil.generateToken(user);
         Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
-        return new AuthResponse(token, user.getUsername(), user.getFullName(), roles);
+        return new AuthResponse(token, user.getUsername(), user.getFullName(), user.getEmail(), user.getPhone(), roles);
     }
 
     public AuthResponse login(LoginRequest request, String ipAddress, String userAgent) {
@@ -76,6 +76,6 @@ public class AuthService {
                 ipAddress, userAgent, "User", null);
         String token = jwtUtil.generateToken(user);
         Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
-        return new AuthResponse(token, user.getUsername(), user.getFullName(), roles);
+        return new AuthResponse(token, user.getUsername(), user.getFullName(), user.getEmail(), user.getPhone(), roles);
     }
 }

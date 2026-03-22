@@ -15,10 +15,11 @@ public class AuthDTO {
     ) {}
 
     // ---- RESPONSE: Token JWT ----
-    public record AuthResponse(
-            String token,
-            String username,
-            String fullName,
-            java.util.Set<String> roles
-    ) {}
-}
+   public record AuthResponse(
+        String token,
+        String username,
+        String fullName,
+        String email,
+        String phone,
+        java.util.Set<String> roles
+) {}

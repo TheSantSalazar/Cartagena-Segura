@@ -1,24 +1,30 @@
 package com.ProAula.Cartagena_Segura.Service;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final SendGrid sendGrid;
     private final TemplateEngine templateEngine;
 
-    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
-        this.mailSender = mailSender;
+    @Value("${mail.from}")
+    private String mailFrom;
+
+    public EmailService(@Value("${sendgrid.api-key}") String apiKey,
+                        TemplateEngine templateEngine) {
+        this.sendGrid = new SendGrid(apiKey);
         this.templateEngine = templateEngine;
     }
 
@@ -34,16 +40,21 @@ public class EmailService {
 
             String html = templateEngine.process("email-bienvenida", context);
 
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setFrom("noreply@cartagenasegura.com");
-            helper.setTo(to);
-            helper.setSubject("¡Bienvenido a Cartagena Segura! 🛡️");
-            helper.setText(html, true);
+            Email from    = new Email(mailFrom, "Cartagena Segura");
+            Email toEmail = new Email(to);
+            Content content = new Content("text/html", html);
+            Mail mail = new Mail(from, "¡Bienvenido a Cartagena Segura! 🛡️", toEmail, content);
 
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            // Log error sin interrumpir el flujo del registro
+            Request request = new Request();
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+
+            Response response = sendGrid.api(request);
+            if (response.getStatusCode() >= 400) {
+                System.err.println("Error SendGrid: " + response.getStatusCode() + " - " + response.getBody());
+            }
+        } catch (IOException e) {
             System.err.println("Error enviando email de bienvenida a " + to + ": " + e.getMessage());
         }
     }

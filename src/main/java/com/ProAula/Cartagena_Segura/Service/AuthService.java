@@ -48,6 +48,10 @@ public class AuthService {
         if (userRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("El email ya está en uso");
         }
+        if (request.phone() != null && !request.phone().isBlank() &&
+                userRepository.existsByPhone(request.phone())) {
+            throw new IllegalArgumentException("El teléfono ya está en uso");
+        }
         Role userRole = roleRepository.findByName("USER")
                 .orElseGet(() -> roleRepository.save(new Role("USER", "Usuario estándar")));
         User user = new User(

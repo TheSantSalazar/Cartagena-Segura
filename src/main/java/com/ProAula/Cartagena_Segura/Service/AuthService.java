@@ -43,14 +43,14 @@ public class AuthService {
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new IllegalArgumentException("El username ya está en uso");
+            throw new IllegalArgumentException("El username ya esta en uso");
         }
         if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("El email ya está en uso");
+            throw new IllegalArgumentException("El email ya esta en uso");
         }
         if (request.phone() != null && !request.phone().isBlank() &&
                 userRepository.existsByPhone(request.phone())) {
-            throw new IllegalArgumentException("El teléfono ya está en uso");
+            throw new IllegalArgumentException("El telefono ya esta en uso");
         }
         Role userRole = roleRepository.findByName("USER")
                 .orElseGet(() -> roleRepository.save(new Role("USER", "Usuario estándar")));

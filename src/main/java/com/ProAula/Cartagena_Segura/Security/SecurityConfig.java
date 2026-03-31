@@ -72,6 +72,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/reports/**").hasRole("ADMIN")
                         .requestMatchers("/api/logs/**").hasRole("ADMIN")
+                        .requestMatchers("/api/ai/summary", "/api/ai/zones/analysis").hasRole("ADMIN")
+
                         // ===== Todo lo demás requiere autenticación =====
                         .anyRequest().authenticated()
                 )
@@ -86,9 +88,11 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000",
-                "http://localhost:",
+                "http://localhost:5173",
+                "http://localhost:8080",
                 "https://cartagena-segura.vercel.app",
-                "https://cartagena-segura-mobile.vercel.app"
+                "https://cartagena-segura-mobile.vercel.app",
+                "https://cartagena-segura.up.railway.app"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));

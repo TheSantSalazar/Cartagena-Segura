@@ -2,6 +2,7 @@ package com.ProAula.Cartagena_Segura.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -66,6 +67,8 @@ public class SecurityConfig {
                         ).permitAll()
                         // ===== Auth - publico =====
                         .requestMatchers("/api/auth/**").permitAll()
+                        // ===== Archivos de evidencia - publico (solo GET) =====
+                        .requestMatchers(HttpMethod.GET, "/api/files/**").permitAll()
                         // ===== Contactos de emergencia - publico =====
                         .requestMatchers("/api/emergency-contacts", "/api/emergency-contacts/**").permitAll()
                         // ===== Solo ADMIN =====
@@ -73,7 +76,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/reports/**").hasRole("ADMIN")
                         .requestMatchers("/api/logs/**").hasRole("ADMIN")
                         .requestMatchers("/api/ai/summary", "/api/ai/zones/analysis").hasRole("ADMIN")
-
                         // ===== Todo lo demás requiere autenticación =====
                         .anyRequest().authenticated()
                 )

@@ -348,4 +348,3 @@ Pagina 3 - Auditoria (opcional):
 - [ ] Filtros por fecha, zona, tipo y prioridad
 - [ ] Mapa geolocalizado funcionando
 - [ ] Dashboard publicado
-

@@ -103,24 +103,24 @@ public class AiService {
     }
 
     /**
-     * 💬 CHAT
+     * 💬 CHAT - Versión simple (usa prompt por defecto)
      */
     public AiDto.ChatResponse chat(String userMessage) {
+        String defaultSystem = "Eres el asistente de 'Cartagena Segura'. Responde de forma clara y útil.";
+        return chat(userMessage, defaultSystem);
+    }
 
-        String systemText = """
-                Eres el asistente virtual de 'Cartagena Segura', una plataforma ciudadana para Cartagena, Colombia.
-                Responde de forma clara, breve y útil.
-                Ayuda a los ciudadanos a reportar incidentes y entender qué hacer en situaciones de riesgo.
-                """;
-
+    /**
+     * 💬 CHAT - Versión avanzada (permite personalizar el comportamiento del sistema)
+     */
+    public AiDto.ChatResponse chat(String userMessage, String systemMessage) {
         try {
             String respuesta = callGroq(List.of(
-                    Map.of("role", "system", "content", systemText),
+                    Map.of("role", "system", "content", systemMessage),
                     Map.of("role", "user", "content", userMessage)
             ));
 
             if (respuesta == null) throw new RuntimeException();
-
             return new AiDto.ChatResponse(respuesta);
 
         } catch (Exception e) {

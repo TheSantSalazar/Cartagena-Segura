@@ -2,9 +2,12 @@ package com.ProAula.Cartagena_Segura.Controller;
 
 import com.ProAula.Cartagena_Segura.Dto.AiDto;
 import com.ProAula.Cartagena_Segura.Service.AiService;
+import com.ProAula.Cartagena_Segura.Service.ChatbotAgent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @RestController
 @RequestMapping("/api/ai")
@@ -12,13 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class AiController {
 
     private final AiService aiService;
+    private final ChatbotAgent chatbotAgent;
 
     /**
-     * Chatbot conversacional para ciudadanos y agentes
+     * Chatbot conversacional para ciudadanos y agentes (Context-Aware)
      */
     @PostMapping("/chat")
-    public ResponseEntity<AiDto.ChatResponse> chat(@RequestBody AiDto.Request request) {
-        return ResponseEntity.ok(aiService.chat(request.getMessage()));
+    public ResponseEntity<AiDto.ChatResponse> chat(@RequestBody AiDto.Request request, Authentication auth) {
+        // Detectamos si el usuario tiene el rol ADMIN
+        boolean isAdmin = auth != null && auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return ResponseEntity.ok(chatbotAgent.processMessage(request.getMessage(), isAdmin));
     }
 
     /**

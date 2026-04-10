@@ -18,6 +18,7 @@ public class AiDto {
         private String message;     // Para chat
         private String description; // Para clasificación
         private String sessionId;   // Opcional para contexto
+        private boolean isAdmin;    // Indica si el usuario es administrador
     }
 
     /**

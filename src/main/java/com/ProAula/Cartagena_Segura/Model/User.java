@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -92,8 +93,15 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .toList();
+                .map(role -> {
+                    // Si el nombre en la DB no tiene ROLE_, se lo añadimos para Spring Security
+                    String name = role.getName();
+                    if (!name.startsWith("ROLE_")) {
+                        name = "ROLE_" + name;
+                    }
+                    return new SimpleGrantedAuthority(name);
+                })
+                .collect(Collectors.toList());
     }
 
     @Override

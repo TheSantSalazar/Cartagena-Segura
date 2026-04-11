@@ -54,7 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/index.html",
-                                "/Ctg_Seg.ico",
+                                "/favicon.ico",
+                                "/logo-full.png", // Nuevo nombre del logo
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
@@ -67,6 +68,11 @@ public class SecurityConfig {
                         ).permitAll()
                         // ===== Auth - publico =====
                         .requestMatchers("/api/auth/**").permitAll()
+                        
+                        // ===== Estadisticas publicas para Landing Page (Solo GET) =====
+                        .requestMatchers(HttpMethod.GET, "/api/incidents").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/zones").permitAll()
+
                         // ===== Archivos de evidencia - publico (solo GET) =====
                         .requestMatchers(HttpMethod.GET, "/api/files/**").permitAll()
                         // ===== Contactos de emergencia - publico =====

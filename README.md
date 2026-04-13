@@ -8,6 +8,34 @@ Sistema de gestión y seguridad ciudadana para la ciudad de Cartagena. Esta docu
 * PostgreSQL (Local)
 * MongoDB (Local)
 
+## Instalación
+
+* Linux / Mac: ./mvnw clean install
+
+* Windows PowerShell: .\mvnw.cmd clean install
+
+## Ejecución
+
+* Linux / Mac: ./mvnw spring-boot:run
+
+* Windows PowerShell: .\mvnw.cmd spring-boot:run
+
+## El servidor estará disponible en: http://localhost:8080
+
+## Swagger
+
+* Documentación de la API (disponible al ejecutar): http://localhost:8080/swagger-ui/index.html
+
+## Tecnologías del Proyecto
+
+* Framework: Spring Boot 3.4.3
+* Lenguaje: Java 21
+* Gestor de Dependencias: Maven
+* Bases de Datos: PostgreSQL & MongoDB
+* Seguridad: JWT (JSON Web Token)
+* IA: Groq API
+* Notificaciones: SendGrid
+
 ## Variables de Entorno (.env)
 Crea un archivo `.env` en la raíz del proyecto para la ejecución local:
 
@@ -34,33 +62,3 @@ MAIL_FROM=test@localhost.com
 PORT=8080
 BASE_URL=http://localhost:8080
 UPLOAD_DIR=uploads/
-
-Instalación
-Linux / Mac:
-./mvnw clean install
-
-Windows PowerShell:
-.\mvnw.cmd clean install
-
-Ejecución
-Linux / Mac:
-./mvnw spring-boot:run
-
-Windows PowerShell:
-.\mvnw.cmd spring-boot:run
-
-El servidor estará disponible en: http://localhost:8080
-
-Swagger
-Documentación de la API (disponible al ejecutar):
-http://localhost:8080/swagger-ui/index.html
-
-Tecnologías del Proyecto
-
-Framework: Spring Boot 3.4.3
-Lenguaje: Java 21
-Gestor de Dependencias: Maven
-Bases de Datos: PostgreSQL & MongoDB
-Seguridad: JWT (JSON Web Token)
-IA: Groq API
-Notificaciones: SendGrid

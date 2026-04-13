@@ -10,9 +10,8 @@ Sistema de gestión y seguridad ciudadana para la ciudad de Cartagena. Esta docu
 
 ## Instalación
 
-* Linux / Mac: ./mvnw clean install
-
-* Windows PowerShell: .\mvnw.cmd clean install
+* git clone https://github.com/tu-usuario/cartagena-segura-backend.git
+* cd cartagena-segura-backend
 
 ## Ejecución
 

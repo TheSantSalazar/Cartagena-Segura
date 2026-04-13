@@ -20,7 +20,7 @@ Sistema de gestión y seguridad ciudadana para la ciudad de Cartagena. Esta docu
 
 * Windows PowerShell: .\mvnw.cmd spring-boot:run
 
-## El servidor estará disponible en: http://localhost:8080
+* El servidor estará disponible en: http://localhost:8080
 
 ## Swagger
 

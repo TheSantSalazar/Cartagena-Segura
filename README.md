@@ -11,7 +11,7 @@ Sistema de gestión y seguridad ciudadana para la ciudad de Cartagena. Esta docu
 ## Instalación
 
 * git clone https://github.com/TheSantSalazar/Cartagena-Segura
-* cd cartagena-segura-backend
+* Abrir la carpeta con tu editor de codigo o IDE favorito
 
 ## Ejecución
 

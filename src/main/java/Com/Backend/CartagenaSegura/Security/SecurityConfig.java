@@ -55,7 +55,8 @@ public class SecurityConfig {
                                 "/",
                                 "/Index.html",
                                 "/favicon.ico",
-                                "/logo-full.png", // Nuevo nombre del logo
+                                "/logo-full.png",
+                                "/AppLogo.png",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",

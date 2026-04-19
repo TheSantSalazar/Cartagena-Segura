@@ -53,7 +53,7 @@ public class SecurityConfig {
                         // ===== Recursos estaticos y raiz - publico =====
                         .requestMatchers(
                                 "/",
-                                "/index.html",
+                                "/Index.html",
                                 "/favicon.ico",
                                 "/logo-full.png", // Nuevo nombre del logo
                                 "/css/**",

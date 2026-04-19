@@ -1,30 +1,32 @@
 package Com.Backend.CartagenaSegura.Service;
 
-import com.resend.Resend;
-import com.resend.core.exception.ResendException;
-import com.resend.services.emails.model.CreateEmailOptions;
-import com.resend.services.emails.model.CreateEmailResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmailService {
 
-    private final Resend resend;
     private final TemplateEngine templateEngine;
+    private final ObjectMapper objectMapper;
 
-    @Value("${mail.from}")
-    private String mailFrom;
+    @Value("${apps.script.url}")
+    private String appsScriptUrl;
 
-    public EmailService(@Value("${resend.api-key}") String apiKey,
-                        TemplateEngine templateEngine) {
-        this.resend = new Resend(apiKey);
+    public EmailService(TemplateEngine templateEngine, ObjectMapper objectMapper) {
         this.templateEngine = templateEngine;
+        this.objectMapper = objectMapper;
     }
 
     @Async
@@ -40,24 +42,35 @@ public class EmailService {
             // Se genera el HTML desde la plantilla
             String html = templateEngine.process("EmailBienvenida", context);
 
-            // Construir el paquete a través del Builder de Resend
-            CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from("Cartagena Segura <" + mailFrom + ">")
-                    .to(to)
-                    .subject("¡Bienvenido a Cartagena Segura! 🛡️")
-                    .html(html)
+            // Preparar el cuerpo JSON
+            Map<String, String> payload = new HashMap<>();
+            payload.put("to", to);
+            payload.put("subject", "¡Bienvenido a Cartagena Segura! 🛡️");
+            payload.put("html", html);
+
+            String requestBody = objectMapper.writeValueAsString(payload);
+
+            // Enviar petición HTTPS a Google Apps Script
+            HttpClient client = HttpClient.newBuilder()
+                    .followRedirects(HttpClient.Redirect.ALWAYS) // Apps script requiere redirecciones
                     .build();
 
-            // Ejecutar el envío
-            CreateEmailResponse data = resend.emails().send(params);
-            
-            System.out.println("Email enviado existosamente por Resend. ID: " + data.getId());
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(appsScriptUrl))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
 
-        } catch (ResendException e) {
-            System.err.println("Error enviando email vía Resend a " + to);
-            System.err.println("Detalle del Error Resend: " + e.getMessage());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200 || response.statusCode() == 302) {
+                 System.out.println("Email delegado existosamente a Google Apps Script para: " + to);
+            } else {
+                 System.err.println("Google Script retornó código HTTP: " + response.statusCode());
+            }
+
         } catch (Exception e) {
-            System.err.println("Error procesando plantilla de correo a " + to + ": " + e.getMessage());
+            System.err.println("Error delegando email a Google Apps Script para " + to + ": " + e.getMessage());
         }
     }
 }

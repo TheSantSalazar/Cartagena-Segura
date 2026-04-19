@@ -124,12 +124,7 @@
 		</dependency>
 
 
-		<!-- ===== EMAIL ===== -->
-		<dependency>
-			<groupId>com.resend</groupId>
-			<artifactId>resend-java</artifactId>
-			<version>3.1.0</version>
-		</dependency>
+
 
 		<!-- ===== DEV ===== -->
 		<dependency>

@@ -1,0 +1,75 @@
+package Com.Backend.CartagenaSegura.Controller;
+
+import Com.Backend.CartagenaSegura.Dto.AuthDto.*;
+import Com.Backend.CartagenaSegura.Dto.SharedDto.ApiResponse;
+import Com.Backend.CartagenaSegura.Service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+@Tag(name = "AutenticaciÃƒÂ³n", description = "Registro e inicio de sesiÃƒÂ³n de usuarios")
+@SecurityRequirements // Rutas pÃƒÂºblicas - sin token
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    @Operation(
+            summary = "Registrar nuevo usuario",
+            description = "Crea una nueva cuenta con rol USER. Retorna JWT token listo para usar."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Registro exitoso"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Username o email ya en uso")
+    })
+    public ResponseEntity<ApiResponse<AuthResponse>> register(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Datos del nuevo usuario",
+                    content = @Content(examples = @ExampleObject(value = """
+                    {
+                      "username": "juanperez",
+                      "password": "Password123!",
+                      "email": "juan@email.com",
+                      "fullName": "Juan PÃƒÂ©rez",
+                      "phone": "3001234567"
+                    }
+                """))
+            )
+            @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(ApiResponse.ok("Registro exitoso", authService.register(request)));
+    }
+
+    @PostMapping("/login")
+    @Operation(
+            summary = "Iniciar sesiÃƒÂ³n",
+            description = "Autentica al usuario. Copia el `token` de la respuesta y ÃƒÂºsalo en el botÃƒÂ³n **Authorize** (formato: `Bearer <token>`)."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Login exitoso - retorna JWT token"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Credenciales incorrectas")
+    })
+    public ResponseEntity<ApiResponse<AuthResponse>> login(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(examples = @ExampleObject(value = """
+                    { "username": "juanperez", "password": "Password123!" }
+                """))
+            )
+            @RequestBody LoginRequest request,
+            HttpServletRequest httpRequest) {
+        AuthResponse response = authService.login(request,
+                httpRequest.getRemoteAddr(), httpRequest.getHeader("User-Agent"));
+        return ResponseEntity.ok(ApiResponse.ok("Login exitoso", response));
+    }
+}

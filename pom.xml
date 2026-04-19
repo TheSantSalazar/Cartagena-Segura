@@ -11,7 +11,7 @@
 		<version>3.4.3</version>
 	</parent>
 
-	<groupId>com.ProAula.Cartagena_Segura</groupId>
+	<groupId>Com.Backend.CartagenaSegura</groupId>
 	<artifactId>cartagena-segura-backend</artifactId>
 	<version>1.0.0</version>
 

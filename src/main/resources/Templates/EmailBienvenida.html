@@ -3,550 +3,151 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Bienvenido a Cartagena Segura</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@400;500&display=swap');
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* RESET */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f5f3ef; font-family: 'DM Sans', Arial, sans-serif; }
 
-    body {
-      background-color: #f5f3ef;
-      font-family: 'DM Sans', -apple-system, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
+    /* LAYOUT */
+    .wrapper { width: 100%; table-layout: fixed; background-color: #f5f3ef; padding-bottom: 40px; }
+    .main-table { width: 100%; max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; }
 
-    .wrapper {
-      max-width: 580px;
-      margin: 40px auto;
-      padding: 0 16px 48px;
-    }
+    /* HEADER */
+    .header { background-color: #0c1e3c; padding: 40px 30px; text-align: left; color: #ffffff; }
+    .logo-img { width: 35px; vertical-align: middle; }
+    .logo-text { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 600; color: #ffffff; display: inline-block; vertical-align: middle; margin-left: 10px; }
+    
+    .tag { display: inline-block; background: rgba(65,165,230,0.15); border: 1px solid rgba(65,165,230,0.3); border-radius: 100px; padding: 4px 12px; font-size: 11px; color: #78c0f0; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px; }
+    .title { font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700; line-height: 1.2; margin: 15px 0 10px; }
+    .title span { color: #41a5e6; }
+    .subtitle { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 300; line-height: 1.5; }
 
-    /* ── HEADER ── */
-    .header {
-      background-color: #0c1e3c;
-      border-radius: 16px 16px 0 0;
-      padding: 52px 48px 44px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-              linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-
-    .header-glow {
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 240px; height: 240px;
-      background: radial-gradient(circle, rgba(65, 165, 230, 0.18) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .header-inner { position: relative; }
-
-    .logo-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-
-    .logo-badge {
-      width: 48px; height: 48px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .logo-badge img { width: 30px; height: 30px; object-fit: contain; }
-
-    .logo-text-block { line-height: 1; }
-    .logo-name {
-      font-family: 'Sora', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: #ffffff;
-      letter-spacing: -0.2px;
-    }
-    .logo-sub {
-      font-size: 11px;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-top: 3px;
-    }
-
-    .header-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(65,165,230,0.15);
-      border: 1px solid rgba(65,165,230,0.25);
-      border-radius: 100px;
-      font-size: 11px;
-      color: #78c0f0;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .header h1 {
-      font-family: 'Sora', sans-serif;
-      font-size: 32px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: -1px;
-      line-height: 1.1;
-      margin-bottom: 10px;
-    }
-
-    .header h1 span { color: #41a5e6; }
-
-    .header-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.45);
-      font-weight: 300;
-      line-height: 1.6;
-    }
-
-    /* ── BODY ── */
-    .body {
-      background: #ffffff;
-      padding: 44px 48px;
-      border-left: 1px solid #e8e4de;
-      border-right: 1px solid #e8e4de;
-    }
-
-    .intro {
-      font-size: 15px;
-      color: #4a4640;
-      line-height: 1.75;
-      margin-bottom: 32px;
-    }
-
-    .intro strong { color: #0c1e3c; font-weight: 600; }
-
-    /* ── ACCOUNT CARD ── */
-    .account-card {
-      border: 1px solid #e4e0da;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 36px;
-    }
-
-    .account-card-head {
-      background: #f8f6f2;
-      border-bottom: 1px solid #e4e0da;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .account-card-head span {
-      font-family: 'Sora', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      color: #9c9690;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-    }
-
-    .dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #c8c2bb;
-      display: inline-block;
-    }
-
-    .info-grid {
-      padding: 0;
-    }
-
-    .info-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid #f0ece6;
-    }
-
+    /* CONTENT */
+    .body-content { padding: 40px 30px; }
+    .intro-text { font-size: 15px; color: #4a4640; line-height: 1.7; margin-bottom: 30px; }
+    
+    /* CARD */
+    .account-card { background: #faf9f7; border: 1px solid #e8e4de; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+    .card-title { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #9c9690; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    
+    .info-row { padding: 8px 0; border-bottom: 1px solid #f0ece6; }
     .info-row:last-child { border-bottom: none; }
+    .label { font-size: 12px; color: #a8a29c; text-transform: uppercase; width: 100px; display: inline-block; }
+    .value { font-size: 14px; color: #1a1614; font-weight: 500; }
 
-    .info-label {
-      font-size: 12px;
-      color: #a8a29c;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
+    /* FEATURES */
+    .feature-item { padding: 15px 0; border-bottom: 1px solid #f0ece6; }
+    .feature-icon { font-size: 18px; width: 30px; display: table-cell; vertical-align: top; }
+    .feature-text { display: table-cell; vertical-align: top; padding-left: 10px; }
+    .feature-text strong { font-size: 14px; color: #0c1e3c; display: block; margin-bottom: 2px; }
+    .feature-text span { font-size: 13px; color: #888280; line-height: 1.4; }
 
-    .info-value {
-      font-size: 14px;
-      color: #1a1614;
-      font-weight: 500;
-    }
+    /* BUTTON */
+    .cta-container { text-align: center; padding: 30px 0; border-top: 1px solid #f0ece6; }
+    .btn { background-color: #0c1e3c; color: #ffffff !important; padding: 14px 40px; border-radius: 8px; text-decoration: none; font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; display: inline-block; }
 
-    .role-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 10px 3px 7px;
-      background: #eaf7f0;
-      border: 1px solid #c0e8d4;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #1a7a48;
-      letter-spacing: 0.5px;
-    }
+    /* FOOTER */
+    .footer { padding: 30px; text-align: center; font-size: 12px; color: #9c9690; line-height: 1.6; }
+    .footer a { color: #41a5e6; text-decoration: none; }
 
-    .role-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #2db870;
-    }
-
-    /* ── FEATURES ── */
-    .features-header {
-      font-family: 'Sora', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: #9c9690;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .features-list { margin-bottom: 36px; }
-
-    .feature-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid #f0ece6;
-    }
-
-    .feature-row:last-child { border-bottom: none; }
-
-    .feature-num {
-      font-family: 'Sora', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: #c8c2bb;
-      min-width: 20px;
-      padding-top: 2px;
-    }
-
-    .feature-content strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      color: #1a1614;
-      margin-bottom: 2px;
-    }
-
-    .feature-content span {
-      font-size: 13px;
-      color: #888280;
-      line-height: 1.55;
-      font-weight: 300;
-    }
-
-    .feature-icon {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px;
-      flex-shrink: 0;
-    }
-
-    /* ── CTA ── */
-    .cta-wrap {
-      padding: 32px 0 36px;
-      border-top: 1px solid #f0ece6;
-      text-align: center;
-    }
-
-    .cta-label {
-      font-size: 12px;
-      color: #b0aba5;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      margin-bottom: 16px;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      padding: 15px 44px;
-      background: #0c1e3c;
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 10px;
-      font-family: 'Sora', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-    }
-
-    .cta-link {
-      display: block;
-      margin-top: 14px;
-      font-size: 12px;
-      color: #b0aba5;
-    }
-
-    .cta-link a {
-      color: #41a5e6;
-      text-decoration: none;
-    }
-
-    /* ── ALERT ── */
-    .alert {
-      background: #fdf9ee;
-      border: 1px solid #e8d99a;
-      border-radius: 10px;
-      padding: 16px 20px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .alert-icon {
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .alert p {
-      font-size: 12.5px;
-      color: #7a6720;
-      line-height: 1.65;
-      font-weight: 400;
-    }
-
-    .alert strong { font-weight: 600; }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: #0c1e3c;
-      border-radius: 0 0 16px 16px;
-      padding: 32px 48px;
-      text-align: center;
-    }
-
-    .footer-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .footer-logo img { width: 22px; height: 22px; object-fit: contain; }
-
-    .footer-name {
-      font-family: 'Sora', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.7);
-    }
-
-    .footer-year {
-      font-size: 11px;
-      color: rgba(255,255,255,0.2);
-      margin-bottom: 18px;
-    }
-
-    .footer-nav {
-      margin-bottom: 20px;
-    }
-
-    .footer-nav a {
-      color: rgba(255,255,255,0.3);
-      text-decoration: none;
-      font-size: 11.5px;
-      margin: 0 10px;
-      letter-spacing: 0.3px;
-    }
-
-    .footer-copy {
-      font-size: 11px;
-      color: rgba(255,255,255,0.15);
-      line-height: 1.7;
-    }
-
-    .divider-line {
-      height: 1px;
-      background: #f0ece6;
-      margin: 0 0 32px;
-    }
-
-    @media (max-width: 600px) {
-      .header, .body, .footer { padding: 28px 24px; }
-      .header h1 { font-size: 26px; }
+    /* MOBILE OVERRIDES */
+    @media only screen and (max-width: 600px) {
+      .main-table { border-radius: 0 !important; }
+      .header, .body-content, .footer { padding: 25px 20px !important; }
+      .title { font-size: 24px !important; }
+      .label { width: 80px !important; font-size: 11px !important; }
     }
   </style>
 </head>
 <body>
 <div class="wrapper">
+  <table class="main-table" align="center" border="0" cellpadding="0" cellspacing="0">
+    <!-- HEADER -->
+    <tr>
+      <td class="header">
+        <img src="https://cartagena-segura.vercel.app/logo-full.png" alt="CS" class="logo-img" />
+        <div class="logo-text">Cartagena Segura</div>
+        <div class="tag">Registro completado</div>
+        <div class="title">Bienvenido,<br><span th:text="${username}">Usuario</span>.</div>
+        <div class="subtitle">Ya eres parte de la red de seguridad ciudadana de Cartagena.</div>
+      </td>
+    </tr>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-grid"></div>
-    <div class="header-glow"></div>
-    <div class="header-inner">
+    <!-- BODY -->
+    <tr>
+      <td class="body-content">
+        <p class="intro-text">
+          Hola <strong><span th:text="${fullName}">Usuario</span></strong>, tu cuenta ha sido activada. Aquí tienes los detalles exclusivos de tu perfil en nuestra plataforma.
+        </p>
 
-      <div class="logo-row">
-        <div class="logo-badge">
-          <img src="https://cartagena-segura.vercel.app/logo-full.png" alt="Cartagena Segura" />
-        </div>
-        <div class="logo-text-block">
-          <div class="logo-name">Cartagena Segura</div>
-          <div class="logo-sub">Seg. Ciudadana · 2026</div>
-        </div>
-      </div>
+        <!-- DATA CARD -->
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="account-card">
+          <tr>
+            <td class="card-title">Resumen de Cuenta</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="info-row"><span class="label">Usuario</span> <span class="value" th:text="${username}">username</span></div>
+              <div class="info-row"><span class="label">Correo</span> <span class="value" th:text="${email}">email@test.com</span></div>
+              <div class="info-row"><span class="label">Rol</span> <span class="value">CIUDADANO</span></div>
+              <div class="info-row"><span class="label">Fecha</span> <span class="value" th:text="${#temporals.format(registeredAt, 'dd/MM/yyyy')}">19/04/2026</span></div>
+            </td>
+          </tr>
+        </table>
 
-      <div class="header-tag">Registro exitoso</div>
-      <h1>Bienvenido,<br><span th:text="${username}">Usuario</span>.</h1>
-      <p class="header-desc">
-        Ahora formas parte de la comunidad que trabaja<br>para hacer de Cartagena una ciudad más segura.
-      </p>
+        <!-- FEATURES -->
+        <div style="font-family:'Sora'; font-size:12px; color:#9c9690; text-transform:uppercase; margin-bottom:10px;">Herramientas disponibles</div>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="feature-item">
+              <div class="feature-icon">📍</div>
+              <div class="feature-text"><strong>Reportes Proactivos</strong><span>Registra incidentes con fotos y GPS en segundos.</span></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="feature-item">
+              <div class="feature-icon">🗺️</div>
+              <div class="feature-text"><strong>Mapa de Calor</strong><span>Visualiza las zonas de riesgo en tiempo real.</span></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="feature-item">
+              <div class="feature-icon">🚨</div>
+              <div class="feature-text"><strong>Botón de Pánico</strong><span>Acceso directo a las líneas de emergencia.</span></div>
+            </td>
+          </tr>
+        </table>
 
-    </div>
-  </div>
+        <!-- CTA -->
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="cta-container">
+          <tr>
+            <td>
+              <a th:href="${appUrl}" href="https://cartagena-segura.vercel.app" class="btn">Abrir Aplicación</a>
+              <p style="margin-top:20px; font-size:12px; color:#b0aba5;">
+                O entra en: <a th:href="${appUrl}" href="https://cartagena-segura.vercel.app" style="color:#41a5e6;">cartagena-segura.vercel.app</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
 
-  <!-- BODY -->
-  <div class="body">
-
-    <p class="intro">
-      Tu cuenta en <strong>Cartagena Segura</strong> ha sido creada exitosamente.
-      A continuación encontrarás los datos de tu registro y todo lo que puedes hacer desde la plataforma.
-    </p>
-
-    <!-- ACCOUNT INFO -->
-    <div class="account-card">
-      <div class="account-card-head">
-        <div class="dot"></div>
-        <span>Datos de tu cuenta</span>
-      </div>
-      <div class="info-grid">
-        <div class="info-row">
-          <span class="info-label">Usuario</span>
-          <span class="info-value" th:text="${username}">usuario123</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Nombre</span>
-          <span class="info-value" th:text="${fullName}">Nombre Completo</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Correo</span>
-          <span class="info-value" th:text="${email}">usuario@email.com</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Rol</span>
-          <span class="role-pill">
-            <span class="role-dot"></span>
-            CIUDADANO
-          </span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Registrado</span>
-          <span class="info-value" th:text="${#temporals.format(registeredAt, 'dd/MM/yyyy HH:mm')}">07/03/2026 17:31</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- FEATURES -->
-    <p class="features-header">Qué puedes hacer</p>
-    <div class="features-list">
-      <div class="feature-row">
-        <div class="feature-icon" style="background:#eff8ff;">📍</div>
-        <div class="feature-content">
-          <strong>Reportar incidentes</strong>
-          <span>Notifica situaciones de riesgo en tu zona con ubicación GPS, descripción y fotos.</span>
-        </div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-icon" style="background:#f0faf4;">🗺️</div>
-        <div class="feature-content">
-          <strong>Ver el mapa en tiempo real</strong>
-          <span>Visualiza todos los incidentes reportados en Cartagena en tiempo real.</span>
-        </div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-icon" style="background:#fff9ee;">🔔</div>
-        <div class="feature-content">
-          <strong>Recibir notificaciones</strong>
-          <span>Mantente informado sobre el estado de tus reportes.</span>
-        </div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-icon" style="background:#fff5f5;">🚨</div>
-        <div class="feature-content">
-          <strong>Contactos de emergencia</strong>
-          <span>Accede rápidamente a Policía, Bomberos, Hospitales y más.</span>
-        </div>
-      </div>
-      <div class="feature-row">
-        <div class="feature-icon" style="background:#f6f4ff;">📊</div>
-        <div class="feature-content">
-          <strong>Estadísticas de la ciudad</strong>
-          <span>Consulta el tablero de análisis con datos de seguridad de Cartagena.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="cta-wrap">
-      <p class="cta-label">Accede a la plataforma</p>
-      <a th:href="${appUrl}" href="https://cartagena-segura.vercel.app" class="cta-btn">
-        Ingresar a Cartagena Segura
-      </a>
-      <p class="cta-link">
-        O visita
-        <a th:href="${appUrl}" href="https://cartagena-segura.vercel.app">
-          cartagena-segura.vercel.app
-        </a>
-      </p>
-    </div>
-
-    <!-- ALERT -->
-    <div class="alert">
-      <div class="alert-icon">⚠️</div>
-      <p>
-        <strong>Seguridad:</strong> Nunca compartas tu contraseña con nadie.
-        Si no reconoces este registro, contacta al administrador de inmediato.
-        Tu sesión expira cada <strong>24 horas</strong>.
-      </p>
-    </div>
-
-  </div>
-
-  <!-- FOOTER -->
-  <div class="footer">
-    <div class="footer-logo">
-      <img src="https://cartagena-segura.vercel.app/logo-full.png" alt="Logo" />
-      <span class="footer-name">Cartagena Segura</span>
-    </div>
-    <div class="footer-year">Sistema de Seguridad Ciudadana · 2026</div>
-    <div class="footer-nav">
-      <a th:href="${appUrl}" href="https://cartagena-segura.vercel.app">Plataforma</a>
-      <a href="#">Privacidad</a>
-      <a href="#">Soporte</a>
-    </div>
-    <div class="footer-copy">
-      Este correo fue enviado automáticamente por el sistema.<br>
-      Por favor no respondas directamente a este mensaje.
-    </div>
-  </div>
-
+    <!-- FOOTER -->
+    <tr>
+      <td class="footer">
+        <strong>Cartagena Segura 2026</strong><br>
+        Sistema de Protección Ciudadana<br><br>
+        Este es un mensaje automático, por favor no respondas.<br>
+        <a href="#">Privacidad</a> | <a href="#">Soporte</a>
+      </td>
+    </tr>
+  </table>
 </div>
 </body>
 </html>

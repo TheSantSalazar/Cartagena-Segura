@@ -24,7 +24,8 @@ public class AiController {
     public ResponseEntity<AiDto.ChatResponse> chat(@RequestBody AiDto.Request request, Authentication auth) {
         // Detectamos si el usuario tiene el rol ADMIN
         boolean isAdmin = auth != null && auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return ResponseEntity.ok(chatbotAgent.processMessage(request.getMessage(), isAdmin));
+        String userName = auth != null ? auth.getName() : "Ciudadano";
+        return ResponseEntity.ok(chatbotAgent.processMessage(request.getMessage(), isAdmin, userName));
     }
 
     /**

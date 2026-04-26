@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/logs")
+@RequestMapping("/api/Logs")
 @PreAuthorize("hasRole('ADMIN')")
-@Tag(name = "Logs (Admin)", description = "**Solo ADMIN**. AuditorÃƒÂ­a completa de acciones en el sistema.")
+@Tag(name = "Logs (Admin)", description = "**Solo ADMIN**. Auditoría completa de acciones en el sistema.")
 @SecurityRequirement(name = "bearerAuth")
 public class LogController {
 
@@ -34,7 +34,7 @@ public class LogController {
         return ResponseEntity.ok(ApiResponse.ok("OK", logService.getAllLogs()));
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/User/{username}")
     @Operation(summary = "Logs por usuario")
     public ResponseEntity<ApiResponse<List<LogEntry>>> getByUser(
             @Parameter(description = "Username del usuario", example = "juanperez")
@@ -42,7 +42,7 @@ public class LogController {
         return ResponseEntity.ok(ApiResponse.ok("OK", logService.getLogsByUser(username)));
     }
 
-    @GetMapping("/level/{level}")
+    @GetMapping("/Level/{level}")
     @Operation(
             summary = "Logs por nivel de severidad",
             description = "Niveles disponibles: `INFO`, `WARN`, `ERROR`"
@@ -53,7 +53,7 @@ public class LogController {
         return ResponseEntity.ok(ApiResponse.ok("OK", logService.getLogsByLevel(level)));
     }
 
-    @GetMapping("/range")
+    @GetMapping("/Range")
     @Operation(
             summary = "Logs por rango de fechas",
             description = "Formato ISO: `2024-01-15T00:00:00`"
@@ -66,10 +66,10 @@ public class LogController {
         return ResponseEntity.ok(ApiResponse.ok("OK", logService.getLogsByDateRange(from, to)));
     }
 
-    @GetMapping("/entity/{type}/{id}")
+    @GetMapping("/Entity/{type}/{id}")
     @Operation(
             summary = "Logs por entidad",
-            description = "Rastrea todos los cambios sobre un objeto especÃƒÂ­fico. Ej: `type=Incident`, `id=64abc123`"
+            description = "Rastrea todos los cambios sobre un objeto específico. Ej: `type=Incident`, `id=64abc123`"
     )
     public ResponseEntity<ApiResponse<List<LogEntry>>> getByEntity(
             @Parameter(description = "Tipo de entidad", example = "Incident") @PathVariable String type,

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/incidents")
-@Tag(name = "Incidentes", description = "GestiÃƒÂ³n de incidentes de seguridad ciudadana")
+@RequestMapping("/api/Incidents")
+@Tag(name = "Incidentes", description = "Gestión de incidentes de seguridad ciudadana")
 @SecurityRequirement(name = "bearerAuth")
 public class IncidentController {
 
@@ -33,13 +33,13 @@ public class IncidentController {
     }
 
     @PostMapping
-    @Operation(summary = "Reportar incidente", description = "Crea un nuevo reporte de incidente. El campo `reportedBy` se asigna automÃƒÂ¡ticamente al usuario autenticado.")
+    @Operation(summary = "Reportar incidente", description = "Crea un nuevo reporte de incidente. El campo `reportedBy` se asigna automáticamente al usuario autenticado.")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = @ExampleObject(value = """
             {
               "type": "ROBO",
-              "description": "Se observÃƒÂ³ un robo a mano armada",
-              "location": "Carrera 3 con Calle 10, GetsemanÃƒÂ­",
+              "description": "Se observó un robo a mano armada",
+              "location": "Carrera 3 con Calle 10, Getsemaní",
               "latitude": 10.4224,
               "longitude": -75.5531,
               "zoneId": "64abc123",
@@ -73,13 +73,13 @@ public class IncidentController {
         return ResponseEntity.ok(ApiResponse.ok("OK", incidentService.getById(id)));
     }
 
-    @GetMapping("/my")
+    @GetMapping("/My")
     @Operation(summary = "Mis incidentes", description = "Retorna los incidentes reportados por el usuario autenticado.")
     public ResponseEntity<ApiResponse<List<Incident>>> getMine(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(ApiResponse.ok("OK", incidentService.getByUser(userDetails.getUsername())));
     }
 
-    @GetMapping("/status/{status}")
+    @GetMapping("/Status/{status}")
     @Operation(summary = "Filtrar por estado")
     public ResponseEntity<ApiResponse<List<Incident>>> getByStatus(
             @Parameter(description = "Estado del incidente", example = "PENDING")
@@ -87,7 +87,7 @@ public class IncidentController {
         return ResponseEntity.ok(ApiResponse.ok("OK", incidentService.getByStatus(status)));
     }
 
-    @GetMapping("/zone/{zoneId}")
+    @GetMapping("/Zone/{zoneId}")
     @Operation(summary = "Filtrar por zona")
     public ResponseEntity<ApiResponse<List<Incident>>> getByZone(
             @Parameter(description = "ID de la zona", example = "64abc123")
@@ -95,22 +95,22 @@ public class IncidentController {
         return ResponseEntity.ok(ApiResponse.ok("OK", incidentService.getByZone(zoneId)));
     }
 
-    @GetMapping("/assigned")
-    @Operation(summary = "Incidentes asignados a mÃƒÂ­", description = "Retorna incidentes asignados al agente autenticado.")
+    @GetMapping("/Assigned")
+    @Operation(summary = "Incidentes asignados a mí", description = "Retorna incidentes asignados al agente autenticado.")
     public ResponseEntity<ApiResponse<List<Incident>>> getAssigned(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(ApiResponse.ok("OK", incidentService.getByAssignedTo(userDetails.getUsername())));
     }
 
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{id}/Status")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Actualizar estado/prioridad", description = "**Solo ADMIN**. Actualiza el estado, prioridad o agente asignado. Genera historial automÃƒÂ¡ticamente.")
+    @Operation(summary = "Actualizar estado/prioridad", description = "**Solo ADMIN**. Actualiza el estado, prioridad o agente asignado. Genera historial automáticamente.")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = @ExampleObject(value = """
             {
               "status": "IN_PROGRESS",
               "priority": "CRITICAL",
               "assignedTo": "agente01",
-              "changeReason": "Se asignÃƒÂ³ patrulla al sector"
+              "changeReason": "Se asignó patrulla al sector"
             }
         """))
     )
@@ -122,7 +122,7 @@ public class IncidentController {
                 incidentService.updateStatus(id, request, userDetails.getUsername())));
     }
 
-    @GetMapping("/{id}/history")
+    @GetMapping("/{id}/History")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Historial de cambios", description = "**Solo ADMIN**. Muestra todos los cambios de estado y prioridad del incidente.")
     public ResponseEntity<ApiResponse<List<IncidentHistory>>> getHistory(@PathVariable String id) {

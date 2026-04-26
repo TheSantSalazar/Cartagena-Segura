@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/emergency-contacts")
-@Tag(name = "Contactos de Emergencia", description = "Directorio de entidades de respuesta: PolicÃƒÂ­a, Bomberos, Guardacostas, etc.")
+@RequestMapping("/api/EmergencyContacts")
+@Tag(name = "Contactos de Emergencia", description = "Directorio de entidades de respuesta: Policía, Bomberos, Guardacostas, etc.")
 public class EmergencyContactController {
 
     private final EmergencyContactService service;
@@ -30,25 +30,25 @@ public class EmergencyContactController {
     }
 
     @GetMapping
-    @SecurityRequirements // PÃƒÂºblico
-    @Operation(summary = "Listar contactos activos", description = "**PÃƒÂºblico** - No requiere autenticaciÃƒÂ³n. Retorna todos los contactos de emergencia activos.")
+    @SecurityRequirements // Público
+    @Operation(summary = "Listar contactos activos", description = "**Público** - No requiere autenticación. Retorna todos los contactos de emergencia activos.")
     public ResponseEntity<ApiResponse<List<EmergencyContact>>> getAll() {
         return ResponseEntity.ok(ApiResponse.ok("OK", service.getAll()));
     }
 
-    @GetMapping("/zone/{zone}")
+    @GetMapping("/Zone/{zone}")
     @SecurityRequirements
-    @Operation(summary = "Contactos por zona", description = "**PÃƒÂºblico**. Filtra contactos por nombre de zona. Ej: `Bocagrande`, `GetsemanÃƒÂ­`")
+    @Operation(summary = "Contactos por zona", description = "**Público**. Filtra contactos por nombre de zona. Ej: `Bocagrande`, `Getsemaní`")
     public ResponseEntity<ApiResponse<List<EmergencyContact>>> getByZone(
             @Parameter(description = "Nombre de la zona", example = "Bocagrande") @PathVariable String zone) {
         return ResponseEntity.ok(ApiResponse.ok("OK", service.getByZone(zone)));
     }
 
-    @GetMapping("/type/{type}")
+    @GetMapping("/Type/{type}")
     @SecurityRequirements
     @Operation(
             summary = "Contactos por tipo",
-            description = "**PÃƒÂºblico**. Tipos disponibles: `POLICE`, `FIRE_STATION`, `CIVIL_DEFENSE`, `HOSPITAL`, `AMBULANCE`, `COAST_GUARD`, `MUNICIPALITY`, `OTHER`"
+            description = "**Público**. Tipos disponibles: `POLICE`, `FIRE_STATION`, `CIVIL_DEFENSE`, `HOSPITAL`, `AMBULANCE`, `COAST_GUARD`, `MUNICIPALITY`, `OTHER`"
     )
     public ResponseEntity<ApiResponse<List<EmergencyContact>>> getByType(
             @Parameter(description = "Tipo de entidad", example = "POLICE") @PathVariable EmergencyContact.ContactType type) {
@@ -69,7 +69,7 @@ public class EmergencyContactController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = @ExampleObject(value = """
             {
-              "name": "PolicÃƒÂ­a Nacional - Bocagrande",
+              "name": "Policía Nacional - Bocagrande",
               "phone": "6047890000",
               "alternativePhone": "123",
               "type": "POLICE",

@@ -14,9 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
-@Tag(name = "AutenticaciÃƒÂ³n", description = "Registro e inicio de sesiÃƒÂ³n de usuarios")
-@SecurityRequirements // Rutas pÃƒÂºblicas - sin token
+@RequestMapping("/api/Auth")
+@Tag(name = "Autenticación", description = "Registro e inicio de sesión de usuarios")
+@SecurityRequirements // Rutas públicas - sin token
 public class AuthController {
 
     private final AuthService authService;
@@ -25,7 +25,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/Register")
     @Operation(
             summary = "Registrar nuevo usuario",
             description = "Crea una nueva cuenta con rol USER. Retorna JWT token listo para usar."
@@ -42,7 +42,7 @@ public class AuthController {
                       "username": "juanperez",
                       "password": "Password123!",
                       "email": "juan@email.com",
-                      "fullName": "Juan PÃƒÂ©rez",
+                      "fullName": "Juan Pérez",
                       "phone": "3001234567"
                     }
                 """))
@@ -51,10 +51,10 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.ok("Registro exitoso", authService.register(request)));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/Login")
     @Operation(
-            summary = "Iniciar sesiÃƒÂ³n",
-            description = "Autentica al usuario. Copia el `token` de la respuesta y ÃƒÂºsalo en el botÃƒÂ³n **Authorize** (formato: `Bearer <token>`)."
+            summary = "Iniciar sesión",
+            description = "Autentica al usuario. Copia el `token` de la respuesta y úsalo en el botón **Authorize** (formato: `Bearer <token>`)."
     )
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Login exitoso - retorna JWT token"),

@@ -68,21 +68,21 @@ public class SecurityConfig {
                                 "/actuator/**"
                         ).permitAll()
                         // ===== Auth - publico =====
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/Auth/**").permitAll()
                         
                         // ===== Estadisticas publicas para Landing Page (Solo GET) =====
-                        .requestMatchers(HttpMethod.GET, "/api/incidents").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/zones").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/Incidents").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/Zones").permitAll()
 
                         // ===== Archivos de evidencia - publico (solo GET) =====
-                        .requestMatchers(HttpMethod.GET, "/api/files/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/Files/**").permitAll()
                         // ===== Contactos de emergencia - publico =====
-                        .requestMatchers("/api/emergency-contacts", "/api/emergency-contacts/**").permitAll()
+                        .requestMatchers("/api/EmergencyContacts", "/api/EmergencyContacts/**").permitAll()
                         // ===== Solo ADMIN =====
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/reports/**").hasRole("ADMIN")
-                        .requestMatchers("/api/logs/**").hasRole("ADMIN")
-                        .requestMatchers("/api/ai/summary", "/api/ai/zones/analysis").hasRole("ADMIN")
+                        .requestMatchers("/api/Admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/Reports/**").hasRole("ADMIN")
+                        .requestMatchers("/api/Logs/**").hasRole("ADMIN")
+                        .requestMatchers("/api/Ai/Summary", "/api/Ai/Zones/Analysis").hasRole("ADMIN")
                         // ===== Todo lo demÃ¡s requiere autenticaciÃ³n =====
                         .anyRequest().authenticated()
                 )

@@ -24,16 +24,16 @@ public class SwaggerConfig {
                         .description("""
                     API REST para el sistema de seguridad ciudadana de Cartagena.
                     
-                    ## AutenticaciÃ³n
+                    ## Autenticación
                     Esta API usa **JWT Bearer Token**. Para obtener un token:
-                    1. RegÃ­strate en `POST /api/auth/register`
-                    2. Inicia sesiÃ³n en `POST /api/auth/login`
+                    1. Regístrate en `POST /api/Auth/Register`
+                    2. Inicia sesión en `POST /api/Auth/Login`
                     3. Copia el token de la respuesta
                     4. Haz clic en **Authorize** e ingresa: `Bearer <tu_token>`
                     
                     ## Roles
-                    - **USER** â†’ puede reportar incidentes, comentar y ver notificaciones
-                    - **ADMIN** â†’ acceso completo al sistema
+                    - **USER** -> puede reportar incidentes, comentar y ver notificaciones
+                    - **ADMIN** -> acceso completo al sistema
                     """)
                         .version("1.0.0")
                         .contact(new Contact()
@@ -45,7 +45,7 @@ public class SwaggerConfig {
                 )
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("Servidor de desarrollo"),
-                        new Server().url("https://api.cartagenasegura.com").description("Servidor de producciÃ³n")
+                        new Server().url("https://api.cartagenasegura.com").description("Servidor de producción")
                 ))
                 // Configurar esquema de seguridad JWT
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))

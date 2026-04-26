@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/api/Notifications")
 @Tag(name = "Notificaciones", description = "Centro de notificaciones del usuario autenticado")
 @SecurityRequirement(name = "bearerAuth")
 public class NotificationController {
@@ -33,39 +33,39 @@ public class NotificationController {
                 notificationService.getByUser(userDetails.getUsername())));
     }
 
-    @GetMapping("/unread")
-    @Operation(summary = "Notificaciones no leÃƒÂ­das")
+    @GetMapping("/Unread")
+    @Operation(summary = "Notificaciones no leídas")
     public ResponseEntity<ApiResponse<List<Notification>>> getUnread(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(ApiResponse.ok("OK",
                 notificationService.getUnreadByUser(userDetails.getUsername())));
     }
 
-    @GetMapping("/unread/count")
-    @Operation(summary = "Contador de no leÃƒÂ­das", description = "ÃƒÅ¡til para mostrar el badge rojo en la campana de notificaciones.")
+    @GetMapping("/Unread/Count")
+    @Operation(summary = "Contador de no leídas", description = "Útil para mostrar el badge rojo en la campana de notificaciones.")
     public ResponseEntity<ApiResponse<Long>> countUnread(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(ApiResponse.ok("OK",
                 notificationService.countUnread(userDetails.getUsername())));
     }
 
-    @PatchMapping("/{id}/read")
-    @Operation(summary = "Marcar como leÃƒÂ­da")
+    @PatchMapping("/{id}/Read")
+    @Operation(summary = "Marcar como leída")
     public ResponseEntity<ApiResponse<Notification>> markAsRead(
-            @Parameter(description = "ID de la notificaciÃƒÂ³n") @PathVariable String id) {
-        return ResponseEntity.ok(ApiResponse.ok("Marcada como leÃƒÂ­da", notificationService.markAsRead(id)));
+            @Parameter(description = "ID de la notificación") @PathVariable String id) {
+        return ResponseEntity.ok(ApiResponse.ok("Marcada como leída", notificationService.markAsRead(id)));
     }
 
-    @PatchMapping("/read-all")
-    @Operation(summary = "Marcar todas como leÃƒÂ­das")
+    @PatchMapping("/ReadAll")
+    @Operation(summary = "Marcar todas como leídas")
     public ResponseEntity<ApiResponse<Void>> markAllAsRead(@AuthenticationPrincipal UserDetails userDetails) {
         notificationService.markAllAsRead(userDetails.getUsername());
-        return ResponseEntity.ok(ApiResponse.ok("Todas marcadas como leÃƒÂ­das", null));
+        return ResponseEntity.ok(ApiResponse.ok("Todas marcadas como leídas", null));
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar notificaciÃƒÂ³n")
+    @Operation(summary = "Eliminar notificación")
     public ResponseEntity<ApiResponse<Void>> delete(
-            @Parameter(description = "ID de la notificaciÃƒÂ³n") @PathVariable String id) {
+            @Parameter(description = "ID de la notificación") @PathVariable String id) {
         notificationService.delete(id);
-        return ResponseEntity.ok(ApiResponse.ok("NotificaciÃƒÂ³n eliminada", null));
+        return ResponseEntity.ok(ApiResponse.ok("Notificación eliminada", null));
     }
 }

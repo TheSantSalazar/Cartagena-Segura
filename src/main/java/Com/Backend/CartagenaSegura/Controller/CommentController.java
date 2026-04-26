@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/incidents/{incidentId}/comments")
-@Tag(name = "Comentarios", description = "Comentarios en incidentes. Soporta comentarios internos (solo ADMIN) y pÃƒÂºblicos.")
+@RequestMapping("/api/Incidents/{incidentId}/Comments")
+@Tag(name = "Comentarios", description = "Comentarios en incidentes. Soporta comentarios internos (solo ADMIN) y públicos.")
 @SecurityRequirement(name = "bearerAuth")
 public class CommentController {
 
@@ -32,11 +32,11 @@ public class CommentController {
     @PostMapping
     @Operation(
             summary = "Agregar comentario",
-            description = "Agrega un comentario al incidente. Si `isInternal` es `true`, solo lo verÃƒÂ¡n admins y agentes."
+            description = "Agrega un comentario al incidente. Si `isInternal` es `true`, solo lo verán admins y agentes."
     )
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = @ExampleObject(value = """
-            { "content": "Se enviÃƒÂ³ patrulla al sector", "isInternal": false }
+            { "content": "Se envió patrulla al sector", "isInternal": false }
         """))
     )
     public ResponseEntity<ApiResponse<Comment>> create(
@@ -49,13 +49,13 @@ public class CommentController {
     }
 
     @GetMapping
-    @Operation(summary = "Comentarios pÃƒÂºblicos", description = "Retorna solo los comentarios visibles para todos los usuarios.")
+    @Operation(summary = "Comentarios públicos", description = "Retorna solo los comentarios visibles para todos los usuarios.")
     public ResponseEntity<ApiResponse<List<Comment>>> getPublic(
             @Parameter(description = "ID del incidente") @PathVariable String incidentId) {
         return ResponseEntity.ok(ApiResponse.ok("OK", commentService.getPublicByIncident(incidentId)));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/All")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Todos los comentarios", description = "**Solo ADMIN**. Incluye comentarios internos.")
     public ResponseEntity<ApiResponse<List<Comment>>> getAll(

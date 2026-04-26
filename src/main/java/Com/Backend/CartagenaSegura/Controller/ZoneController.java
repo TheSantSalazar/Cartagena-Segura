@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/zones")
-@Tag(name = "Zonas", description = "GestiÃƒÂ³n de zonas geogrÃƒÂ¡ficas de Cartagena con niveles de riesgo")
+@RequestMapping("/api/Zones")
+@Tag(name = "Zonas", description = "Gestión de zonas geográficas de Cartagena con niveles de riesgo")
 @SecurityRequirement(name = "bearerAuth")
 public class ZoneController {
 
@@ -31,12 +31,12 @@ public class ZoneController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Crear zona", description = "**Solo ADMIN**. Registra una nueva zona geogrÃƒÂ¡fica.")
+    @Operation(summary = "Crear zona", description = "**Solo ADMIN**. Registra una nueva zona geográfica.")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             content = @Content(examples = @ExampleObject(value = """
             {
-              "name": "GetsemanÃƒÂ­",
-              "description": "Barrio histÃƒÂ³rico y turÃƒÂ­stico",
+              "name": "Getsemaní",
+              "description": "Barrio histórico y turístico",
               "centerLatitude": 10.4224,
               "centerLongitude": -75.5531
             }
@@ -49,7 +49,7 @@ public class ZoneController {
     }
 
     @GetMapping
-    @Operation(summary = "Listar zonas activas", description = "Retorna todas las zonas activas con sus estadÃƒÂ­sticas de incidentes.")
+    @Operation(summary = "Listar zonas activas", description = "Retorna todas las zonas activas con sus estadísticas de incidentes.")
     public ResponseEntity<ApiResponse<List<Zone>>> getAll() {
         return ResponseEntity.ok(ApiResponse.ok("OK", zoneService.getAll()));
     }
@@ -62,7 +62,7 @@ public class ZoneController {
         return ResponseEntity.ok(ApiResponse.ok("OK", zoneService.getById(id)));
     }
 
-    @GetMapping("/risk/{level}")
+    @GetMapping("/Risk/{level}")
     @Operation(
             summary = "Filtrar por nivel de riesgo",
             description = "Valores posibles: `LOW`, `MODERATE`, `HIGH`, `CRITICAL`"
@@ -73,7 +73,7 @@ public class ZoneController {
         return ResponseEntity.ok(ApiResponse.ok("OK", zoneService.getByRiskLevel(level)));
     }
 
-    @PatchMapping("/{id}/risk")
+    @PatchMapping("/{id}/Risk")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Actualizar nivel de riesgo", description = "**Solo ADMIN**. Modifica el nivel de riesgo de una zona.")
     public ResponseEntity<ApiResponse<Zone>> updateRisk(

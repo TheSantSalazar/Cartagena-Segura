@@ -15,8 +15,8 @@ import java.nio.file.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/files")
-@Tag(name = "Archivos", description = "Upload y servicio de imÃƒÂ¡genes y documentos de incidentes")
+@RequestMapping("/api/Files")
+@Tag(name = "Archivos", description = "Upload y servicio de imágenes y documentos de incidentes")
 @SecurityRequirement(name = "bearerAuth")
 public class FileUploadController {
 
@@ -36,9 +36,9 @@ public class FileUploadController {
     );
 
     // Ã¢â€â‚¬Ã¢â€â‚¬ POST /api/files/upload Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-    @PostMapping("/upload")
+    @PostMapping("/Upload")
     @Operation(summary = "Subir archivos de evidencia",
-            description = "Sube hasta 5 archivos (imÃƒÂ¡genes/docs) y retorna las URLs pÃƒÂºblicas para guardar en el incidente.")
+            description = "Sube hasta 5 archivos (imágenes/docs) y retorna las URLs públicas para guardar en el incidente.")
     public ResponseEntity<ApiResponse<Map<String, Object>>> upload(
             @RequestParam("files") List<MultipartFile> files) throws IOException {
 
@@ -48,7 +48,7 @@ public class FileUploadController {
 
         if (files.size() > 5)
             return ResponseEntity.badRequest()
-                    .body(ApiResponse.error("MÃƒÂ¡ximo 5 archivos por incidente"));
+                    .body(ApiResponse.error("Máximo 5 archivos por incidente"));
 
         Path dir = Paths.get(uploadDir).toAbsolutePath().normalize();
         Files.createDirectories(dir);
@@ -87,7 +87,7 @@ public class FileUploadController {
 
     // Ã¢â€â‚¬Ã¢â€â‚¬ GET /api/files/{filename} Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
     @GetMapping("/{filename:.+}")
-    @Operation(summary = "Servir archivo", description = "Retorna el archivo almacenado. No requiere autenticaciÃƒÂ³n.")
+    @Operation(summary = "Servir archivo", description = "Retorna el archivo almacenado. No requiere autenticación.")
     public ResponseEntity<org.springframework.core.io.Resource> serveFile(
             @PathVariable String filename) throws IOException {
 

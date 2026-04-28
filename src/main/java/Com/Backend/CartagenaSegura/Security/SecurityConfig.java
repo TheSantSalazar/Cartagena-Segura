@@ -83,7 +83,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/Reports/**").hasRole("ADMIN")
                         .requestMatchers("/api/Logs/**").hasRole("ADMIN")
                         .requestMatchers("/api/Ai/Summary", "/api/Ai/Zones/Analysis").hasRole("ADMIN")
-                        // ===== Todo lo demÃ¡s requiere autenticaciÃ³n =====
+                        // ===== Todo lo demás requiere autenticación =====
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

@@ -15,7 +15,7 @@ public class Comment {
     @Indexed
     private String incidentId;     // ID del incidente al que pertenece
 
-    private String userId;         // ID del usuario que comentÃ³
+    private String userId;         // ID del usuario que comentó
     private String username;       // Para mostrar sin hacer join
 
     private String content;

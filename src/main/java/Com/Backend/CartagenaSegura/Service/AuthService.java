@@ -53,7 +53,7 @@ public class AuthService {
             throw new IllegalArgumentException("El telefono ya esta en uso");
         }
         Role userRole = roleRepository.findByName("USER")
-                .orElseGet(() -> roleRepository.save(new Role("USER", "Usuario estÃƒÂ¡ndar")));
+                .orElseGet(() -> roleRepository.save(new Role("USER", "Usuario estándar")));
         User user = new User(
                 request.username(),
                 passwordEncoder.encode(request.password()),
@@ -80,7 +80,7 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
-        logService.logFull("LOGIN", request.username(), "Inicio de sesiÃƒÂ³n exitoso",
+        logService.logFull("LOGIN", request.username(), "Inicio de sesión exitoso",
                 ipAddress, userAgent, "User", null);
         String token = jwtUtil.generateToken(user);
         Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());

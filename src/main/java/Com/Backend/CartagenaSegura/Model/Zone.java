@@ -9,7 +9,7 @@ public class Zone {
     @Id
     private String id;
 
-    private String name;           // Ej: "Bocagrande", "GetsemanÃ­", "El Centro"
+    private String name;           // Ej: "Bocagrande", "Getsemaní", "El Centro"
     private String description;
 
     // Nivel de riesgo calculado o asignado manualmente
@@ -19,7 +19,7 @@ public class Zone {
     private Double centerLatitude;
     private Double centerLongitude;
 
-    // EstadÃ­sticas (se pueden actualizar periodicamente)
+    // Estadísticas (se pueden actualizar periódicamente)
     private int totalIncidents = 0;
     private int pendingIncidents = 0;
     private int resolvedIncidents = 0;

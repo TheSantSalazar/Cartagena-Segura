@@ -26,7 +26,7 @@ public class Report {
     // Filtros aplicados (zona, tipo de incidente, etc.)
     private Map<String, String> filters;
 
-    // Resumen de datos (estadÃ­sticas clave del reporte)
+    // Resumen de datos (estadísticas clave del reporte)
     private Map<String, Object> summary;
 
     private String fileUrl;            // URL del PDF generado (si aplica)

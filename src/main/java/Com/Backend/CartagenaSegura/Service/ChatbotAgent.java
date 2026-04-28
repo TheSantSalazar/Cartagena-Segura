@@ -40,7 +40,7 @@ public class ChatbotAgent {
      * Procesa la consulta del usuario enriqueciendo el prompt con el estado actual de la BD.
      */
     public AiDto.ChatResponse processMessage(String userMessage, boolean isAdmin, String userName) {
-        log.info("🤖 Agente procesando mensaje para {} ({}): {}", userName, isAdmin ? "ADMIN" : "USER", userMessage);
+        log.info("Agente procesando mensaje para {} ({}): {}", userName, isAdmin ? "ADMIN" : "USER", userMessage);
         
         // 1. Obtener contexto de la BD
         String context = gatherSystemContext();

@@ -59,7 +59,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            logger.warn("JWT invÃ¡lido, ignorando: " + e.getMessage());
+            logger.warn("JWT inválido, ignorando: " + e.getMessage());
         }
 
         filterChain.doFilter(request, response);

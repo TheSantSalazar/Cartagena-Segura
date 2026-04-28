@@ -11,11 +11,11 @@ public class EmergencyContact {
     private Long id;
 
     @Column(nullable = false)
-    private String name;             // Ej: "PolicÃ­a Nacional - Bocagrande"
+    private String name;             // Ej: "Policía Nacional - Bocagrande"
 
-    private String phone;            // NÃºmero de contacto
+    private String phone;            // Número de contacto
 
-    private String alternativePhone; // NÃºmero alternativo
+    private String alternativePhone; // Número alternativo
 
     private ContactType type;
 
@@ -25,16 +25,16 @@ public class EmergencyContact {
 
     private boolean active = true;
 
-    private String notes;            // InformaciÃ³n adicional
+    private String notes;            // Información adicional
 
     public enum ContactType {
-        POLICE,          // PolicÃ­a
+        POLICE,          // Policía
         FIRE_STATION,    // Bomberos
         CIVIL_DEFENSE,   // Defensa Civil
-        HOSPITAL,        // Hospital / ClÃ­nica
+        HOSPITAL,        // Hospital / Clínica
         AMBULANCE,       // Ambulancias
         COAST_GUARD,     // Guardacostas (relevante para Cartagena)
-        MUNICIPALITY,    // AlcaldÃ­a / Entidades distritales
+        MUNICIPALITY,    // Alcaldía / Entidades distritales
         OTHER
     }
 

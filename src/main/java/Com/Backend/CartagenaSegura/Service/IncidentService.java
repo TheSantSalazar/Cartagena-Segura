@@ -47,7 +47,7 @@ public class IncidentService {
 
         // Notificar al usuario que su reporte fue recibido
         notificationService.notifyUser(reportedBy, "Reporte recibido",
-                "Tu reporte de " + req.type() + " fue recibido y estÃƒÂ¡ siendo revisado.",
+                "Tu reporte de " + req.type() + " fue recibido y está siendo revisado.",
                 Com.Backend.CartagenaSegura.Model.Notification.NotificationType.INCIDENT_CREATED,
                 saved.getId(), "Incident");
 
@@ -131,7 +131,7 @@ public class IncidentService {
         return historyRepository.findByIncidentIdOrderByChangedAtDesc(incidentId);
     }
 
-    // EstadÃƒÂ­sticas
+    // Estadísticas
     public long countByStatus(Incident.Status status) {
         return incidentRepository.countByStatus(status);
     }

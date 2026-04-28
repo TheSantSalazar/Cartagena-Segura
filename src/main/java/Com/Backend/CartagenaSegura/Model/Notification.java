@@ -13,7 +13,7 @@ public class Notification {
     private String id;
 
     @Indexed
-    private String userId;         // A quiÃ©n va dirigida
+    private String userId;         // A quién va dirigida
 
     private String title;
     private String message;
@@ -29,12 +29,12 @@ public class Notification {
     private LocalDateTime readAt;
 
     public enum NotificationType {
-        INCIDENT_CREATED,       // Se creÃ³ un incidente en tu zona
+        INCIDENT_CREATED,       // Se creó un incidente en tu zona
         INCIDENT_UPDATED,       // Tu incidente fue actualizado
         INCIDENT_RESOLVED,      // Tu incidente fue resuelto
         INCIDENT_ASSIGNED,      // Te asignaron un incidente
         ZONE_ALERT,             // Alerta en una zona
-        SYSTEM                  // NotificaciÃ³n general del sistema
+        SYSTEM                  // Notificación general del sistema
     }
 
     public Notification() {}

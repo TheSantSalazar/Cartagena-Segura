@@ -45,7 +45,7 @@ public class EmailService {
             // Preparar el cuerpo JSON
             Map<String, String> payload = new HashMap<>();
             payload.put("to", to);
-            payload.put("subject", "¡Bienvenido a Cartagena Segura! 🛡️");
+            payload.put("subject", "¡Bienvenido a Cartagena Segura!");
             payload.put("html", html);
 
             String requestBody = objectMapper.writeValueAsString(payload);

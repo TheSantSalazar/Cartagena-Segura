@@ -27,7 +27,7 @@ public class CommentService {
         return saved;
     }
 
-    // Comentarios pÃƒÂºblicos (usuarios normales)
+    // Comentarios públicos (usuarios normales)
     public List<Comment> getPublicByIncident(String incidentId) {
         return commentRepository.findByIncidentIdAndIsInternalAndDeletedFalse(incidentId, false);
     }

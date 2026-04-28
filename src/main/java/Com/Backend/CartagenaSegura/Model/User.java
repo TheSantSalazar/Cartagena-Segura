@@ -94,7 +94,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> {
-                    // Si el nombre en la DB no tiene ROLE_, se lo aÃ±adimos para Spring Security
+                    // Si el nombre en la DB no tiene ROLE_, se lo añadimos para Spring Security
                     String name = role.getName();
                     if (!name.startsWith("ROLE_")) {
                         name = "ROLE_" + name;

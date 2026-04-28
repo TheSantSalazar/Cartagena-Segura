@@ -38,13 +38,10 @@ public class AiService {
     private final ObjectMapper objectMapper;
 
     /**
-     * Ã°Å¸â€Â¥ MÃƒâ€°TODO CENTRAL (LLAMADA A GROQ)
+     * MÉTODO CENTRAL (LLAMADA A GROQ)
      */
     private String callGroq(List<Map<String, String>> messages) {
         try {
-            log.info("Ã°Å¸â€â€˜ API KEY >>> {}", apiKey);
-            log.info("Ã°Å¸Å’Â API URL >>> {}", apiUrl);
-
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -82,7 +79,7 @@ public class AiService {
             }
 
             String responseStr = response.toString();
-            log.info("Ã°Å¸â€œÂ© GROQ RESPONSE >>> {}", responseStr);
+            log.info("GROQ RESPONSE >>> {}", responseStr);
 
             if (status >= 400) {
                 throw new RuntimeException("Error Groq: " + responseStr);
@@ -97,21 +94,21 @@ public class AiService {
                     .asText();
 
         } catch (Exception e) {
-            log.error("Ã¢ÂÅ’ ERROR REAL GROQ >>> {}", e.getMessage(), e);
-            throw new RuntimeException(e); // Ã°Å¸â€˜Ë† IMPORTANTE
+            log.error("ERROR REAL GROQ >>> {}", e.getMessage(), e);
+            throw new RuntimeException(e); // IMPORTANTE
         }
     }
 
     /**
-     * Ã°Å¸â€™Â¬ CHAT - VersiÃƒÂ³n simple (usa prompt por defecto)
+     * CHAT - Versión simple (usa prompt por defecto)
      */
     public AiDto.ChatResponse chat(String userMessage) {
-        String defaultSystem = "Eres el asistente de 'Cartagena Segura'. Responde de forma clara y ÃƒÂºtil.";
+        String defaultSystem = "Eres el asistente de 'Cartagena Segura'. Responde de forma clara y útil.";
         return chat(userMessage, defaultSystem);
     }
 
     /**
-     * Ã°Å¸â€™Â¬ CHAT - VersiÃƒÂ³n avanzada (permite personalizar el comportamiento del sistema)
+     * CHAT - Versión avanzada (permite personalizar el comportamiento del sistema)
      */
     public AiDto.ChatResponse chat(String userMessage, String systemMessage) {
         try {
@@ -124,15 +121,15 @@ public class AiService {
             return new AiDto.ChatResponse(respuesta);
 
         } catch (Exception e) {
-            log.warn("Ã¢Å¡Â Ã¯Â¸Â Fallback chat: {}", e.getMessage());
+            log.warn("Fallback chat: {}", e.getMessage());
             return new AiDto.ChatResponse(
-                    "[SIMULACIÃƒâ€œN] El asistente estÃƒÂ¡ temporalmente fuera de servicio. Intenta nuevamente mÃƒÂ¡s tarde."
+                    "[SIMULACIÓN] El asistente está temporalmente fuera de servicio. Intenta nuevamente más tarde."
             );
         }
     }
 
     /**
-     * Ã°Å¸Â§Â  CLASIFICACIÃƒâ€œN DE INCIDENTES
+     * CLASIFICACIÓN DE INCIDENTES
      */
     public AiDto.ClassifyResponse classify(String description) {
 
@@ -159,7 +156,7 @@ public class AiService {
             return objectMapper.readValue(respuesta, AiDto.ClassifyResponse.class);
 
         } catch (Exception e) {
-            log.warn("Ã¢Å¡Â Ã¯Â¸Â Fallback clasificaciÃƒÂ³n: {}", e.getMessage());
+            log.warn("Fallback clasificación: {}", e.getMessage());
 
             if (description.toLowerCase().contains("choque") ||
                     description.toLowerCase().contains("carro")) {
@@ -172,7 +169,7 @@ public class AiService {
     }
 
     /**
-     * Ã°Å¸â€œÅ  RESUMEN GENERAL
+     * RESUMEN GENERAL
      */
     public AiDto.SummaryResponse generateSummary() {
 
@@ -198,13 +195,13 @@ public class AiService {
 
         } catch (Exception e) {
             return new AiDto.SummaryResponse(
-                    "[SIMULACIÃƒâ€œN] Se observa estabilidad en los reportes recientes."
+                    "[SIMULACIÓN] Se observa estabilidad en los reportes recientes."
             );
         }
     }
 
     /**
-     * Ã°Å¸â€”ÂºÃ¯Â¸Â ANÃƒÂLISIS DE ZONAS
+     * ANÁLISIS DE ZONAS
      */
     public AiDto.ZoneAnalysis analyzeZones() {
 

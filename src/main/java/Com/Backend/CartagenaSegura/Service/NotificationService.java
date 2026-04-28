@@ -39,7 +39,7 @@ public class NotificationService {
 
     public Notification markAsRead(String notificationId) {
         Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("NotificaciÃ³n no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Notificación no encontrada"));
         notification.setRead(true);
         notification.setReadAt(LocalDateTime.now());
         return notificationRepository.save(notification);

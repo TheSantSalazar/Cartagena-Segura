@@ -9,14 +9,14 @@ import java.util.List;
 public class AiDto {
 
     /**
-     * PeticiÃƒÂ³n genÃƒÂ©rica para Chat y ClasificaciÃƒÂ³n
+     * Petición genérica para Chat y Clasificación
      */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
         private String message;     // Para chat
-        private String description; // Para clasificaciÃƒÂ³n
+        private String description; // Para clasificación
         private String sessionId;   // Opcional para contexto
         private boolean isAdmin;    // Indica si el usuario es administrador
     }
@@ -32,7 +32,7 @@ public class AiDto {
     }
 
     /**
-     * Respuesta estructurada de clasificaciÃƒÂ³n de incidentes
+     * Respuesta estructurada de clasificación de incidentes
      */
     @Data
     @NoArgsConstructor
@@ -54,7 +54,7 @@ public class AiDto {
     }
 
     /**
-     * Respuesta de anÃƒÂ¡lisis de zona
+     * Respuesta de análisis de zona
      */
     @Data
     @NoArgsConstructor
